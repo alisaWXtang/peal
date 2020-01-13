@@ -1,0 +1,6 @@
+build/*.js
+config/*.js
+src/bdp
+sql-hint.js
+ace-editor/index.js
+src/views/page/detailsComponents/rulesDetail.vue
