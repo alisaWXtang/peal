@@ -7,6 +7,8 @@ import "amfe-flexible/index.js";
 import socialAjax from "./services/social-ajax";
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import './assets/aliFont/iconfont.css';
+
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false;

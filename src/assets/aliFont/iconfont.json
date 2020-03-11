@@ -1,0 +1,16 @@
+{
+  "id": "1613931",
+  "name": "SB",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "436101",
+      "name": "back",
+      "font_class": "back",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    }
+  ]
+}

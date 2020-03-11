@@ -1,173 +1,191 @@
 <template>
   <div class="review-page">
-    <table border="1" width="500" align="center" cellspacing="0" cellpadding="6">
-      <caption>quanxuan</caption>
-      <thead>
-        <tr align="center">
-          <th>
-            <input type="checkbox" v-model="inputAllBox" @change="checkBoxAllFn" />
-            {{inputAllBox}}
-          </th>
-          <th>年龄</th>
-          <th>性别</th>
-          <th>job</th>
-          <th>hobbit</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr align="center" v-for="(item,index) in Lists" :key="index">
-          <td>
-            <input type="checkbox" v-model="item.inputBox" @change="itemInputFn(item)" />
-          </td>
-          <td>{{item.age}}</td>
-          <td>{{item.sex}}</td>
-          <td>{{item.hobbit}}</td>
-          <td>
-            <button>删除</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <hr />
-    <el-row style="width:70%;" :gutter="20">
-      <el-col :span="12">
-        <div class="grid-content bg-purple left-part">
-          <h1>标签个数（{{tagsprimariy.length}}）/当前选中（{{selectedTags}}）</h1>
-          <div class="left-pane">
-            <el-tag
-              v-for="item in tagsprimariy"
-              :key="item.name"
-              :type="item.primariyType ? 'warning':''"
-              @click="tagsprimariyFn(item)"
-            >{{item.name}}</el-tag>
-          </div>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="金渡" name="first">
+        <h1>1.数据交互及全选多选思维</h1>
+        <table border="1" width="500" align="center" cellspacing="0" cellpadding="6">
+          <caption>quanxuan</caption>
+          <thead>
+            <tr align="center">
+              <th>
+                <input type="checkbox" v-model="inputAllBox" @change="checkBoxAllFn" />
+                {{inputAllBox}}
+              </th>
+              <th>年龄</th>
+              <th>性别</th>
+              <th>job</th>
+              <th>hobbit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr align="center" v-for="(item,index) in Lists" :key="index">
+              <td>
+                <input type="checkbox" v-model="item.inputBox" @change="itemInputFn(item)" />
+              </td>
+              <td>{{item.age}}</td>
+              <td>{{item.sex}}</td>
+              <td>{{item.hobbit}}</td>
+              <td>
+                <button>删除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <el-row style="width:70%;" :gutter="20">
+          <el-col :span="12">
+            <div class="grid-content bg-purple left-part">
+              <h1>标签个数（{{tagsprimariy.length}}）/当前选中（{{selectedTags}}）</h1>
+              <div class="left-pane">
+                <el-tag
+                  v-for="item in tagsprimariy"
+                  :key="item.name"
+                  :type="item.primariyType ? 'warning':''"
+                  @click="tagsprimariyFn(item)"
+                >{{item.name}}</el-tag>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light right-part">
+              <h1>标签个数（{{tags.length}}）</h1>
+              <div class="right-pane">
+                <el-tag
+                  v-for="(item,index) in tags"
+                  :key="item.name"
+                  closable
+                  :type="true ? 'danger':''"
+                  @close="tagsFn(item,index)"
+                >{{item.name}}</el-tag>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+        <hr />
+        <el-checkbox v-model="checked" @change="checkBoxFn">备选项</el-checkbox>
+        <el-popover
+          placement="top"
+          width="80"
+          trigger="manual"
+          content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+          v-model="checkedPop"
+        >你好</el-popover>
+        <el-input
+          placeholder="请输入内容"
+          v-model="input"
+          :disabled="!checked"
+          style="margin-top:100px;"
+        ></el-input>
+        <hr />
+        <div class="review" style="min-height:100px;">
+          <select v-model="privince" @change="privinceFn();cityFn()">
+            <option v-for="(item, index) in list" :key="index">
+              {{
+              item.name
+              }}
+            </option>
+          </select>
+          <select v-model="cityinfo" @change="cityFn()">
+            <option v-for="(item, index) in city" :key="index">
+              {{
+              item.name
+              }}
+            </option>
+          </select>
+          <select v-model="towninfo" v-if="towninfo">
+            <option v-for="(item, index) in town" :key="index">
+              {{
+              item.name
+              }}
+            </option>
+          </select>
         </div>
-      </el-col>
-      <el-col :span="12">
-        <div class="grid-content bg-purple-light right-part">
-          <h1>标签个数（{{tags.length}}）</h1>
-          <div class="right-pane">
-            <el-tag
-              v-for="(item,index) in tags"
-              :key="item.name"
-              closable
-              :type="true ? 'danger':''"
-              @close="tagsFn(item,index)"
-            >{{item.name}}</el-tag>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
-    <hr />
-    <el-checkbox v-model="checked" @change="checkBoxFn">备选项</el-checkbox>
-    <el-popover
-      placement="top"
-      width="80"
-      trigger="manual"
-      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
-      v-model="checkedPop"
-    >你好</el-popover>
-    <el-input placeholder="请输入内容" v-model="input" :disabled="!checked" style="margin-top:100px;"></el-input>
-    <hr />
-    <div class="review" style="min-height:100px;">
-      <select v-model="privince" @change="privinceFn();cityFn()">
-        <option v-for="(item, index) in list" :key="index">
-          {{
-          item.name
-          }}
-        </option>
-      </select>
-      <select v-model="cityinfo" @change="cityFn()">
-        <option v-for="(item, index) in city" :key="index">
-          {{
-          item.name
-          }}
-        </option>
-      </select>
-      <select v-model="towninfo" v-if="towninfo">
-        <option v-for="(item, index) in town" :key="index">
-          {{
-          item.name
-          }}
-        </option>
-      </select>
-    </div>
-    <hr />
-    <h1>用户名：</h1>
-    <el-input v-model="userName" placeholder="请输入内容"></el-input>
-    <h1>学号：</h1>
-    <el-input v-model="userNum" placeholder="请输入内容"></el-input>
-    <h1>是否住校：</h1>
-    <el-checkbox v-model="isScool"></el-checkbox>
-    <h1>信息详情表</h1>
-    <el-button type="primary" @click="addSchoolData" :disabled="!userName||!userNum">添加</el-button>
-    <el-button type="danger" @click="resetSchoolData">重置</el-button>
-    <el-table :data="SchooltableData" style="width: 100%">
-      <el-table-column label="姓名" width="180">
-        <template slot-scope="scope">
-          <el-tag size="medium">{{ scope.row.userName | isSchoolFilter(2)}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="学号" width="180">
-        <template slot-scope="scope">
-          <el-tag size="medium">{{ scope.row.userNum }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="是否住校" width="180">
-        <template slot-scope="scope">
-          {{scope.row.isScool}}
-          <el-tag
-            size="medium"
-            :type="scope.row.isScool?'success':'warning'"
-          >{{ scope.row.isScool | isSchoolFilter(1) }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+        <hr />
+        <h1>2.表单动态操作数据交互</h1>
+        <h1>用户名：</h1>
+        <el-input v-model="userName" placeholder="请输入内容"></el-input>
+        <h1>学号：</h1>
+        <el-input v-model="userNum" placeholder="请输入内容"></el-input>
+        <h1>是否住校：</h1>
+        <el-checkbox v-model="isScool"></el-checkbox>
+        <h1>信息详情表</h1>
+        <el-button type="primary" @click="addSchoolData" :disabled="!userName||!userNum">添加</el-button>
+        <el-button type="danger" @click="resetSchoolData">重置</el-button>
+        <el-table :data="SchooltableData" style="width: 100%">
+          <el-table-column label="姓名" width="180">
+            <template slot-scope="scope">
+              <el-tag size="medium">{{ scope.row.userName | isSchoolFilter(2)}}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="学号" width="180">
+            <template slot-scope="scope">
+              <el-tag size="medium">{{ scope.row.userNum }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="是否住校" width="180">
+            <template slot-scope="scope">
+              {{scope.row.isScool}}
+              <el-tag
+                size="medium"
+                :type="scope.row.isScool?'success':'warning'"
+              >{{ scope.row.isScool | isSchoolFilter(1) }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
 
-    <hr />
-    <div>
-      <span
-        style="font-size:30px;display:inline-block;background:#aaccaa;vertical-align:bottom;height:40px;"
-      >模糊查询：</span>
-      <el-input style="width:500px;"></el-input>
-    </div>
-    <table border="1" width="500" align="left" cellspacing="0" cellpadding="6" >
-      <caption>gouwuche</caption>
-      <thead>
-        <tr align="center">
-          <th>商品名称</th>
-          <th>商品数量</th>
-          <th>商品单价</th>
-          <th>商品金额</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr align="center" v-for="(item,index) in goodsData" :key="index">
-          <td>{{item.name}}</td>
-          <td>
-            <button @click="--item.count">-</button>
-            {{item.count}}
-            <button @click="++item.count">+</button>
-          </td>
-          <td>{{item.price|goodsPriceFilter}}</td>
-          <td>{{item.count*item.price|goodsPriceFilter}}</td>
-          <td>
-            <button>删除</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-     <div>10件商品总计（不含运费）:￥23</div>
+        <hr />
+        <div>
+          <span
+            style="font-size:30px;display:inline-block;background:#aaccaa;vertical-align:bottom;height:40px;"
+          >模糊查询：</span>
+          <el-input style="width:500px;" v-model="goodsInput" @blur="searchGoodsFn"></el-input>
+        </div>
+        <table border="1" width="500" align="center" cellspacing="0" cellpadding="6">
+          <caption>gouwuche</caption>
+          <thead>
+            <tr align="center">
+              <th>商品名称</th>
+              <th>商品数量</th>
+              <th>商品单价</th>
+              <th>商品金额</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr align="center" v-for="(item,index) in goodsData" :key="index">
+              <td>{{item.name}}</td>
+              <td>
+                <button @click="--item.count" :class="{'pointEvent':item.count==0}">-</button>
+                {{item.count}}
+                <button @click="++item.count">+</button>
+              </td>
+              <td>{{item.price|goodsPriceFilter}}</td>
+              <td>{{item.count*item.price|goodsPriceFilter}}</td>
+              <td>
+                <button>删除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div>{{goodsTotal}}件商品总计（不含运费）:{{goodsAllmoney|goodsPriceFilter}}</div>
+        <el-button :loading="BtnLoading" @click="BtnLoadingFn">加载中</el-button>
+        <hr />
+      </el-tab-pane>
+      <el-tab-pane label="CSS效果" name="second">CSS效果</el-tab-pane>
+      <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+      <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+    </el-tabs>
+
+    <!-- <div class="throttle" @mousemove="throttleFn"></div> -->
+    <div class="activeClass" :class="ActiveC?'red':'blue'" v-chang-dir="'v-chang-dir'">自定义指令</div>
   </div>
 </template>
-
 <script>
 import {} from 'vuex';
 import {} from 'vant';
@@ -176,6 +194,10 @@ export default {
   name: 'Self-select',
   data() {
     return {
+      ActiveC:true,
+      activeName: 'first',
+      BtnLoading: false,
+      goodsInput: '',
       isBtn: false,
       isNBtn: false,
       inputAllBox: false,
@@ -184,7 +206,7 @@ export default {
       input: '',
       userName: '',
       userNum: '',
-      isScool: '',
+      isScool: true,
       SchooltableData: [],
       tags: [],
       tagsprimariy: [
@@ -348,6 +370,16 @@ export default {
         return item.primariyType == true;
       }).length;
     },
+    goodsTotal() {
+      return this.goodsData.reduce((pre, next) => {
+        return pre + next.count;
+      }, 0);
+    },
+    goodsAllmoney() {
+      return this.goodsData.reduce((pre, next) => {
+        return pre + next.count * next.price;
+      }, 0);
+    },
   },
   filters: {
     isSchoolFilter(data, str) {
@@ -367,9 +399,9 @@ export default {
         }
       }
     },
-    goodsPriceFilter(data){
-      return '￥'+data.toFixed(2)
-    }
+    goodsPriceFilter(data) {
+      return '￥' + data.toFixed(2);
+    },
   },
   mounted() {
     this.privinceFn();
@@ -384,7 +416,7 @@ export default {
       /** 第一种方法
       var inBox =  this.Lists.filter((item,index)=>{ return item.inputBox == true
       }).length
-      inBox==this.Lists.length?this.inputAllBox = true:this.inputAllBox = false
+     inBox==this.Lists.length?this.inputAllBox = true:this.inputAllBox = false
       */
 
       //第二种方法
@@ -424,6 +456,7 @@ export default {
       //   if (item.name == this.tags[i].name)  { return };
       // }
       //  this.tags.push(item)
+
 
       //第三种方法(右边数据去重)
       /**
@@ -473,7 +506,82 @@ export default {
         isScool: this.isScool,
       });
     },
+    resetSchoolData() {
+      this.userName = '';
+      this.userNum = '';
+      this.isScool = '';
+    },
+    handleEdit(i, r) {
+      console.log(i, r);
+    },
+    handleDelete(i, r) {
+      console.log(i, r);
+
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          this.SchooltableData.splice(i, 1);
+          this.$message({
+            type: 'success',
+            message: '删除成功!',
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          });
+        });
+    },
+    searchGoodsFn() {
+      const temporaryData = JSON.parse(JSON.stringify(this.goodsData));
+      console.log(this.goodsInput, 'this.goodsInput2222222222');
+
+      if (this.goodsInput) {
+        var arr = this.goodsData.filter((item, index) => {
+          return item.name.includes(this.goodsInput);
+        });
+        console.log(this.goodsInput, 'this.goodsInput');
+        console.log(arr, 'arr');
+        this.goodsData = arr;
+      } else {
+        // debugger
+        this.goodsData = [...temporaryData];
+        // const temporaryData = [...this.goodsData]
+      }
+    },
+    BtnLoadingFn() {
+      let that = this;
+      that.BtnLoading = true;
+      // console.log('加载中');
+
+      setTimeout(async () => {
+        that.BtnLoading = await false;
+      }, 5000);
+    },
+    DoFn() {
+      // console.log('节流了');
+    },
+    throttleFn(DoFn) {
+      // console.log(DoFn, '?????');
+    },
+    handleClick(tab, event) {
+      // console.log(tab, event);
+      if (tab.label == 'CSS效果') {
+        this.$router.push('/config');
+      }
+    },
   },
+  directives:{
+    changDir:{
+      bind(el,bind){
+        // console.log(el,bind)
+      }
+    }
+  }
 };
 </script>
 
@@ -533,5 +641,25 @@ export default {
 }
 .cursor {
   cursor: no-drop;
+}
+.pointEvent {
+  pointer-events: none;
+}
+.throttle {
+  width: 300px;
+  height: 300px;
+  background: #aca;
+}
+.activeClass{
+  width: 300px;
+  height: 300px;
+
+}
+.red{
+  background: red;
+
+}
+.blue{
+  background: blue;
 }
 </style>
