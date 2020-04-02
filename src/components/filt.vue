@@ -6,22 +6,21 @@
 </template>
 
 <script>
-import bus from './bus'
+import bus from './bus';
+
 export default {
-  data () {
-    return {}
+  data() {
+    return {};
   },
   methods: {
-    clickEve () {
-      if(inputValue1 !=='' ||  inputValue2 !== '' || inputValue3 !== ''){
-        this.listdata = listdata.filter(item=>{
-          return item.includes(inputValue1)||item.includes(inputValue1)||item.includes(inputValue1)
-        })
-      }else{
-        this.listdata = copylistData
+    clickEve() {
+      if (inputValue1 !== '' || inputValue2 !== '' || inputValue3 !== '') {
+        this.listdata = listdata.filter((item) => item.includes(inputValue1) || item.includes(inputValue1) || item.includes(inputValue1));
+      } else {
+        this.listdata = copylistData;
       }
-    }
-  }
+    },
+  },
 
-}
+};
 </script>

@@ -22,6 +22,9 @@
         <div class="dot"></div>
       </div>
     </div>
+    <p>尊敬的X女士</p>
+    <p  style="text-indent:2em;">你好，您的密码已经过期</p>
+    <p style="text-align:right;width:100%">——————————oppo</p>
 
     <el-input v-model="numberIn" @keyup.native="onlyNumFn" maxlength="9" />
     <hr />
@@ -34,15 +37,26 @@
         <el-button type="primary" v-debounce="dialogFalse">确 定</el-button>
       </span>
     </el-dialog>
-
+    <el-button type="text" @click="open">点击打开 Message Box</el-button>
+    <router-link to="/config/cool/configCd">router-linkAAAAAA</router-link>
+    <router-link to="/config/cool/configC">router-linkBBBBBBb</router-link>
+    <div>动态路径参数{{this.$route.params}}</div>
+    <div>
+    <router-view/>
+    </div>
+    <chilDren @whereValue = "fatherFn"></chilDren>
   </div>
 </template>
 
 <script>
 import {} from 'vuex';
 import {} from 'vant';
+import chilDren from './children';
 
 export default {
+  components: {
+    chilDren
+  },
   name: 'Self-select',
   data() {
     return {
@@ -60,7 +74,11 @@ export default {
       dialogVisible: false,
     };
   },
-  components: {},
+  computed:{
+    // id(){
+    //   return this.$route
+    // }
+  },
   methods: {
     log() {
       console.log('log');
@@ -90,16 +108,56 @@ export default {
       this.dialogVisible = false;
       console.log('哇哇哇');
     },
+    open() {
+        const h = this.$createElement;
+        this.$msgbox({
+          title: '消息',
+          message: h('p', { style: 'text-align: center' }, [
+            h('P', null, '内容可以是 '),
+            h('P', { style: 'color: teal' }, 'VNode'),
+            h('P', { style: 'color: red' }, 'what'),
+          ]),
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
+              setTimeout(() => {
+                done();
+                setTimeout(() => {
+                  instance.confirmButtonLoading = false;
+                }, 300);
+              }, 3000);
+            } else {
+              done();
+            }
+          }
+        }).then(action => {
+          this.$message({
+            type: 'info',
+            message: 'action: ' + action
+          });
+        });
+      },
+      fatherFn(val){
+        console.log('sssssssssss')
+        console.log(val,'val')
+      }
+
   },
   mounted() {
     this.playImgFn();
+    console.log(this.$route,'this.$route');
+    console.log(this.$router,'this.$router');
   },
   directives: {
     debounce: {
-      bind: function(el, binding) {
-        console.log(el, binding);
+      bind(el, binding) {
+        // console.log(el, binding);
         let timer;
-        el.onclick = function() {
+        el.onclick = function () {
           if (timer) {
             clearTimeout(timer);
           }
@@ -108,7 +166,7 @@ export default {
           }, 800);
         };
       },
-      unbind: function(el, binding) {
+      unbind(el, binding) {
         console.log('解绑了嘛');
       },
     },

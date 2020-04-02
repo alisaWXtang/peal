@@ -5,11 +5,11 @@
 </div>
 </template>
 <script>
-  export default {
-    name: 'TestBaiDu',
-    components: {
-      Btpl: () => import("@/components/B"),
-      Ctpl: () => import("@/components/C")
-    }
-  }
+export default {
+  name: 'TestBaiDu',
+  components: {
+    Btpl: () => import("@/components/B"),
+    Ctpl: () => import("@/components/C"),
+  },
+};
 </script>

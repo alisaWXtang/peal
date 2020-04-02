@@ -76,7 +76,7 @@ export default {
   created() {
     this.getData();
     document.addEventListener('click', (e) => {
-      console.log(this.$refs.div.contains(e.target));
+      // console.log(this.$refs.div.contains(e.target));
       if (!this.$refs.div.contains(e.target)) {
         this.show = !this.show;
       }
@@ -85,7 +85,6 @@ export default {
   methods: {
     // 模拟弹框
     showlow(e) {
-      console.log(555, 91);
       e.stopPropagation();
     },
     // 按钮

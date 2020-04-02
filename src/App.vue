@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+    <div>我是头部</div>
     <router-view />
+    <div>我是尾部</div>
   </div>
 </template>
 

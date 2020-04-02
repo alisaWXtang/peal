@@ -194,7 +194,9 @@ export default {
   name: 'Self-select',
   data() {
     return {
-      ActiveC:true,
+      idR:'cool',
+      canshu:123456,
+      ActiveC: true,
       activeName: 'first',
       BtnLoading: false,
       goodsInput: '',
@@ -224,11 +226,21 @@ export default {
         { name: '标签十二', primariyType: false },
       ],
       Lists: [
-        { age: 1, sex: '女孩', hobbit: '唱跳', inputBox: false },
-        { age: 2, sex: '女孩', hobbit: 'rap', inputBox: false },
-        { age: 3, sex: '男孩', hobbit: '唱跳', inputBox: false },
-        { age: 4, sex: '女孩', hobbit: '唱跳', inputBox: false },
-        { age: 5, sex: '男孩', hobbit: '舞', inputBox: false },
+        {
+          age: 1, sex: '女孩', hobbit: '唱跳', inputBox: false,
+        },
+        {
+          age: 2, sex: '女孩', hobbit: 'rap', inputBox: false,
+        },
+        {
+          age: 3, sex: '男孩', hobbit: '唱跳', inputBox: false,
+        },
+        {
+          age: 4, sex: '女孩', hobbit: '唱跳', inputBox: false,
+        },
+        {
+          age: 5, sex: '男孩', hobbit: '舞', inputBox: false,
+        },
       ],
       privince: '北京',
       city: [],
@@ -366,19 +378,13 @@ export default {
   components: {},
   computed: {
     selectedTags() {
-      return this.tagsprimariy.filter((item, index) => {
-        return item.primariyType == true;
-      }).length;
+      return this.tagsprimariy.filter((item, index) => item.primariyType == true).length;
     },
     goodsTotal() {
-      return this.goodsData.reduce((pre, next) => {
-        return pre + next.count;
-      }, 0);
+      return this.goodsData.reduce((pre, next) => pre + next.count, 0);
     },
     goodsAllmoney() {
-      return this.goodsData.reduce((pre, next) => {
-        return pre + next.count * next.price;
-      }, 0);
+      return this.goodsData.reduce((pre, next) => pre + next.count * next.price, 0);
     },
   },
   filters: {
@@ -387,20 +393,18 @@ export default {
       if (str == 1) {
         if (data) {
           return '住校';
-        } else {
-          return '不住校';
         }
+        return '不住校';
       }
       if (str == 2) {
         if (data) {
           return data;
-        } else {
-          return '没有填写姓名';
         }
+        return '没有填写姓名';
       }
     },
     goodsPriceFilter(data) {
-      return '￥' + data.toFixed(2);
+      return `￥${data.toFixed(2)}`;
     },
   },
   mounted() {
@@ -419,10 +423,8 @@ export default {
      inBox==this.Lists.length?this.inputAllBox = true:this.inputAllBox = false
       */
 
-      //第二种方法
-      this.inputAllBox = this.Lists.every((item, index) => {
-        return item.inputBox;
-      });
+      // 第二种方法
+      this.inputAllBox = this.Lists.every((item, index) => item.inputBox);
     },
     checkBoxAllFn() {
       this.Lists.forEach((item, index) => {
@@ -441,7 +443,7 @@ export default {
         this.tags.push(item);
         this.tags = [...new Set(this.tags)];
       } else {
-        for (var i = 0; i < this.tags.length; i++) {
+        for (let i = 0; i < this.tags.length; i++) {
           if (item.name == this.tags[i].name) {
             this.tags.splice(i, 1);
           }
@@ -449,7 +451,7 @@ export default {
       }
 
       //  */
-      //第二种方法(右边数据去重)
+      // 第二种方法(右边数据去重)
 
       // for (var i = 0; i < this.tags.length; i++) {
       //   console.log(item.name,"-==---=---",this.tags[i].name)
@@ -458,7 +460,7 @@ export default {
       //  this.tags.push(item)
 
 
-      //第三种方法(右边数据去重)
+      // 第三种方法(右边数据去重)
       /**
       var isFlag = this.tags.filter((v,i)=>{
         return v.name==item.name
@@ -468,7 +470,7 @@ export default {
       */
     },
     tagsFn(item, index) {
-      for (var i = 0; i < this.tagsprimariy.length; i++) {
+      for (let i = 0; i < this.tagsprimariy.length; i++) {
         if (item.name == this.tagsprimariy[i].name) {
           this.tagsprimariy[i].primariyType = false;
         }
@@ -480,7 +482,6 @@ export default {
       this.list.forEach((item, index) => {
         if (item.name == this.privince) {
           this.city = item.sub;
-          console.log(this.city, 'this.city ');
         }
       });
       this.cityinfo = this.city[1].name;
@@ -489,12 +490,10 @@ export default {
       this.city.forEach((item, index) => {
         if (item.name == this.cityinfo) {
           this.town = item.sub;
-          console.log(this.town, 'this.town');
         }
       });
       if (this.town.length > 0) {
         this.towninfo = this.town[1].name;
-        console.log(this.towninfo, 'this.town');
       } else {
         this.towninfo = '';
       }
@@ -541,9 +540,7 @@ export default {
       console.log(this.goodsInput, 'this.goodsInput2222222222');
 
       if (this.goodsInput) {
-        var arr = this.goodsData.filter((item, index) => {
-          return item.name.includes(this.goodsInput);
-        });
+        const arr = this.goodsData.filter((item, index) => item.name.includes(this.goodsInput));
         console.log(this.goodsInput, 'this.goodsInput');
         console.log(arr, 'arr');
         this.goodsData = arr;
@@ -554,7 +551,7 @@ export default {
       }
     },
     BtnLoadingFn() {
-      let that = this;
+      const that = this;
       that.BtnLoading = true;
       // console.log('加载中');
 
@@ -571,17 +568,17 @@ export default {
     handleClick(tab, event) {
       // console.log(tab, event);
       if (tab.label == 'CSS效果') {
-        this.$router.push('/config');
+        this.$router.push({path:`/config/${this.idR}`});
       }
     },
   },
-  directives:{
-    changDir:{
-      bind(el,bind){
+  directives: {
+    changDir: {
+      bind(el, bind) {
         // console.log(el,bind)
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

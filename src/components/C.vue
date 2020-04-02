@@ -5,27 +5,27 @@
 </template>
 
 <script>
-import bus from './bus'
-export default {
-  data () {
-    return {}
-  },
-  methods:{
-    showMsg () {　
-　　　　console.log('msg', msg)
-　　}
-  },
-  created () {
-    bus.$on('getMessage', (msg)=>{
-　　　　console.log('msg', msg)
+import bus from './bus';
 
-    } )
+export default {
+  data() {
+    return {};
   },
-  beforDestory () {
-    bus.$off('getMessage',(msg)=>{
-　　　　console.log('msg', msg)
-    })
-  }
-}
+  methods: {
+    showMsg() {
+      console.log('msg', msg);
+    },
+  },
+  created() {
+    bus.$on('getMessage', (msg) => {
+      console.log('msg', msg);
+    });
+  },
+  beforDestory() {
+    bus.$off('getMessage', (msg) => {
+      console.log('msg', msg);
+    });
+  },
+};
 
 </script>

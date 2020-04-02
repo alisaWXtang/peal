@@ -6,15 +6,16 @@
 </template>
 
 <script>
-import bus from './bus'
+import bus from './bus';
+
 export default {
-  data () {
-    return {}
+  data() {
+    return {};
   },
   methods: {
-    clickEve () {
-      bus.$emit('getMessage', 'qqqq')
-    }
-  }
-}
+    clickEve() {
+      bus.$emit('getMessage', 'qqqq');
+    },
+  },
+};
 </script>
