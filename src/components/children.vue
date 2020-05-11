@@ -1,21 +1,22 @@
 <template>
-  <div @click="toConfigFn" class="toConfig">
-    这是一个子组件,这是一个按钮
+  <div v-if="show">
+    <p>默认初始值是{{show}}，所以是显示的</p>
+    <button @click.stop="closeDiv">关闭</button>
   </div>
 </template>
 
 <script>
 
 export default {
-  name:'nihao',
+  name: 'nihao',
   data() {
     return {};
   },
+  props:['show'],
   methods: {
-      toConfigFn(){
-          console.log('子组件的事件触发了')
-          this.$emit('whereValue',{name:'你少', age:'123456'})
-      }
+    closeDiv() {
+      this.$emit('update:show', false); //触发 input 事件，并传入新值
+    }
   },
 
 };

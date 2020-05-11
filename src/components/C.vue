@@ -21,11 +21,11 @@ export default {
       console.log('msg', msg);
     });
   },
-  beforDestory() {
-    bus.$off('getMessage', (msg) => {
-      console.log('msg', msg);
-    });
-  },
+  // beforDestory() {
+  //   bus.$off('getMessage', (msg) => {
+  //     console.log('msg', msg);
+  //   });
+  // },
 };
 
 </script>

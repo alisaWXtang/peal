@@ -178,8 +178,8 @@
         <hr />
       </el-tab-pane>
       <el-tab-pane label="CSS效果" name="second">CSS效果</el-tab-pane>
-      <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-      <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+      <el-tab-pane label="eventBus" name="third">eventBus</el-tab-pane>
+      <el-tab-pane label="elScroll" name="elScroll">el-滚动条</el-tab-pane>
     </el-tabs>
 
     <!-- <div class="throttle" @mousemove="throttleFn"></div> -->
@@ -194,8 +194,8 @@ export default {
   name: 'Self-select',
   data() {
     return {
-      idR:'cool',
-      canshu:123456,
+      idR: 'cool',
+      canshu: 123456,
       ActiveC: true,
       activeName: 'first',
       BtnLoading: false,
@@ -407,9 +407,19 @@ export default {
       return `￥${data.toFixed(2)}`;
     },
   },
+  created() {
+    console.log('created');
+  },
+  beforeUpdate() {
+    console.log('beforeUpdate');
+  },
+  updated() {
+    console.log('Update');
+  },
   mounted() {
     this.privinceFn();
     this.cityFn();
+    console.log('mounted');
   },
   methods: {
     BtnFn() {
@@ -568,14 +578,18 @@ export default {
     handleClick(tab, event) {
       // console.log(tab, event);
       if (tab.label == 'CSS效果') {
-        this.$router.push({path:`/config/${this.idR}`});
+        this.$router.push({ path: `/config/${this.idR}` });
+      } else if (tab.label == 'eventBus') {
+        this.$router.push({ path: `/bus` });
+      } else if (tab.label == 'elScroll') {
+        this.$router.push({ path: `/elScroll` });
       }
     },
   },
   directives: {
     changDir: {
       bind(el, bind) {
-        // console.log(el,bind)
+        console.log(el,bind)
       },
     },
   },

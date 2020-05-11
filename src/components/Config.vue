@@ -1,6 +1,8 @@
 <template>
   <div class="self-page">
+
     <i class="iconfont icon-back iconClass" @click="$router.back(-1)"></i>
+
     <div class="autoPlay">
       <img :src="item" v-for="(item,index) in imgList" :key="index" v-show="index==interim" />
       <div class="circleWrapper">
@@ -21,6 +23,12 @@
         <div class="dot"></div>
         <div class="dot"></div>
       </div>
+    </div>
+    <div v-for="(item,index) in shuxList" :key="index">
+        <span>
+          {{ item.name }}
+        </span>
+        <span v-if="index !== shuxList.length -1">|</span>
     </div>
     <p>尊敬的X女士</p>
     <p  style="text-indent:2em;">你好，您的密码已经过期</p>
@@ -44,7 +52,10 @@
     <div>
     <router-view/>
     </div>
-    <chilDren @whereValue = "fatherFn"></chilDren>
+    <chil-dren  :show.sync='valueChild'
+     style="padding: 30px 20px 30px 5px;border:1px solid #ddd;margin-bottom: 10px;"
+    ></chil-dren>
+    <button @click="changeValue">toggle</button>
   </div>
 </template>
 
@@ -52,14 +63,26 @@
 import {} from 'vuex';
 import {} from 'vant';
 import chilDren from './children';
+import bus from './bus';
 
 export default {
   components: {
-    chilDren
+    chilDren,
   },
   name: 'Self-select',
   data() {
     return {
+      valueChild:true,
+      shuxList:[
+        {name:'a',id:1},
+        {name:'b',id:2},
+        {name:'c',id:3},
+        {name:'d',id:4},
+        {name:'e',id:5},
+        {name:'f',id:6},
+        {name:'g',id:7},
+        {name:'h',id:8},
+      ],
       interim: 0,
       imgList: [
         require('../assets/images/F1.jpeg'),
@@ -74,12 +97,15 @@ export default {
       dialogVisible: false,
     };
   },
-  computed:{
+  computed: {
     // id(){
     //   return this.$route
     // }
   },
   methods: {
+    changeValue(){
+            this.valueChild = !this.valueChild
+        },
     log() {
       console.log('log');
     },
@@ -109,48 +135,57 @@ export default {
       console.log('哇哇哇');
     },
     open() {
-        const h = this.$createElement;
-        this.$msgbox({
-          title: '消息',
-          message: h('p', { style: 'text-align: center' }, [
-            h('P', null, '内容可以是 '),
-            h('P', { style: 'color: teal' }, 'VNode'),
-            h('P', { style: 'color: red' }, 'what'),
-          ]),
-          showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          beforeClose: (action, instance, done) => {
-            if (action === 'confirm') {
-              instance.confirmButtonLoading = true;
-              instance.confirmButtonText = '执行中...';
-              setTimeout(() => {
-                done();
-                setTimeout(() => {
-                  instance.confirmButtonLoading = false;
-                }, 300);
-              }, 3000);
-            } else {
+      const h = this.$createElement;
+      this.$msgbox({
+        title: '消息',
+        message: h('p', { style: 'text-align: center' }, [
+          h('P', null, '内容可以是 '),
+          h('P', { style: 'color: teal' }, 'VNode'),
+          h('P', { style: 'color: red' }, 'what'),
+        ]),
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = '执行中...';
+            setTimeout(() => {
               done();
-            }
+              setTimeout(() => {
+                instance.confirmButtonLoading = false;
+              }, 300);
+            }, 3000);
+          } else {
+            done();
           }
-        }).then(action => {
-          this.$message({
-            type: 'info',
-            message: 'action: ' + action
-          });
+        },
+      }).then((action) => {
+        this.$message({
+          type: 'info',
+          message: `action: ${action}`,
         });
-      },
-      fatherFn(val){
-        console.log('sssssssssss')
-        console.log(val,'val')
-      }
+      });
+    },
+    fatherFn(val) {
+      console.log('sssssssssss');
+      console.log(val, 'val');
+    },
 
   },
-  mounted() {
+  beforeDestroy() {
+    bus.$off('getMessage');
+  },
+  created() {
+    bus.$on('getMessage', (msg) => {
+      console.log('msg', msg);
+    });
     this.playImgFn();
-    console.log(this.$route,'this.$route');
-    console.log(this.$router,'this.$router');
+    // console.log(this.$route,'this.$route');
+    // console.log(this.$router,'this.$router');
+  },
+  updated() {
+
   },
   directives: {
     debounce: {

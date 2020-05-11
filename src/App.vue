@@ -7,8 +7,17 @@
 </template>
 
 <script>
+import Watermark from './util/waterMark';
+
+
 export default {
   name: "app",
+  methods: {
+
+  },
+  mounted() {
+    Watermark.set('水印内容')
+  },
   watch: {
     $route: (n, o) => {
       // console.info(n.fullPath, o);
@@ -38,5 +47,7 @@ button {
 #app {
   width: 100%;
   height: 100%;
+  /* overflow: hidden; */
+
 }
 </style>
