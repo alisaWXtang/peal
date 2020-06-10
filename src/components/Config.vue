@@ -34,7 +34,7 @@
         <el-button type="primary" v-debounce="dialogFalse">确 定</el-button>
       </span>
     </el-dialog>
-
+    <div class="debounce" @mousemove="debounceFn"></div>
   </div>
 </template>
 
@@ -90,6 +90,9 @@ export default {
       this.dialogVisible = false;
       console.log('哇哇哇');
     },
+    debounceFn(){
+      console.log('debounceFn');
+    }
   },
   mounted() {
     this.playImgFn();
@@ -193,5 +196,10 @@ export default {
   width: 300px;
   height: 300px;
   background: red;
+}
+.debounce{
+  widows: 300px;
+  height: 100px;
+  background: pink;
 }
 </style>

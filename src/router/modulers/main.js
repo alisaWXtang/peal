@@ -5,6 +5,7 @@ const list = () => import("@/components/list");
 const review = () => import("@/components/Review");
 const config = () => import("@/components/Config");
 const busmain = () => import("@/components/main");
+const form = () => import("@/components/form");
 
 
 export default [
@@ -17,7 +18,8 @@ export default [
     meta: { title: "自选组合" },
   },
   { path: "/list", component: list, meta: { title: "循环" } },
-  { path: "/", component: review, meta: { title: "珍珠" } },
+  // { path: "/", component: review, meta: { title: "珍珠" } },
+  { path: "/", component: form, meta: { title: "表单验证" } },
   { path: "/config", component: config, meta: { title: "配置管理" } },
 
 ];
