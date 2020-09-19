@@ -9,11 +9,15 @@ const form = () => import("@/components/form");
 const table = () => import("@/components/table");
 const cascaderVant = () => import("@/components/cascaderVant");
 
+const configCd = () => import("@/components/configCd");
+const configC = () => import("@/components/configC");
+const ElScroll = () => import("@/components/elScroll");
 
 export default [
   { path: "/home", component: Home, meta: { title: "主页" } },
   { path: "/combo", component: Combo, meta: { title: "套餐" } },
   { path: "/bus", component: busmain, meta: { title: "vue-bus" } },
+  { path: "/elScroll", component: ElScroll, meta: { title: "vue-elScroll" } },
   {
     path: "/self-selected",
     component: SelfSelect,
@@ -25,5 +29,23 @@ export default [
   // { path: "/", component: table, meta: { title: "表单验证" } },
   { path: "/", component: cascaderVant, meta: { title: "cascaderVant" } },
   { path: "/config", component: config, meta: { title: "配置管理" } },
+  // { path: "/", component: review, meta: { title: "珍珠" } },
+  {
+    path: "/config/:id",
+    component: config,
+    meta: { title: "配置管理" },
+    children: [
+      {
+        path: 'configCd',
+        component: configCd,
+        // name:'conCd'
+      },
+      {
+        path: 'configC',
+        component: configC,
+      // name:'conCd'
+      },
+    ],
+  },
 
 ];
