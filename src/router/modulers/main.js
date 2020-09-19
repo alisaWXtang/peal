@@ -6,6 +6,8 @@ const review = () => import("@/components/Review");
 const config = () => import("@/components/Config");
 const busmain = () => import("@/components/main");
 const form = () => import("@/components/form");
+const table = () => import("@/components/table");
+const cascaderVant = () => import("@/components/cascaderVant");
 
 
 export default [
@@ -19,7 +21,9 @@ export default [
   },
   { path: "/list", component: list, meta: { title: "循环" } },
   // { path: "/", component: review, meta: { title: "珍珠" } },
-  { path: "/", component: form, meta: { title: "表单验证" } },
+  // { path: "/", component: form, meta: { title: "表单验证" } },
+  // { path: "/", component: table, meta: { title: "表单验证" } },
+  { path: "/", component: cascaderVant, meta: { title: "cascaderVant" } },
   { path: "/config", component: config, meta: { title: "配置管理" } },
 
 ];

@@ -23,8 +23,8 @@
       </div>
     </div>
 
-    <el-input v-model="numberIn" @keyup.native="onlyNumFn" maxlength="9" />
-    <hr />
+    <el-input v-model="numberIn" @input="onlyNumFn" v-bind="$attrs"/>
+    <!-- <hr /> -->
     <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
 
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
@@ -77,14 +77,21 @@ export default {
     CircleFn(index) {
       this.interim = index;
     },
-    onlyNumFn() {
-      this.numberIn = this.numberIn.replace(/[^\d.]/g, '');
-      this.numberIn = this.numberIn.replace(/^\./g, '');
-      this.numberIn = this.numberIn.replace(/\.{2,}/g, '');
-      this.numberIn = this.numberIn
-        .replace('.', '$#$')
-        .replace(/\./g, '')
-        .replace('$#$', '.');
+    onlyNumFn(val) {
+        console.log(this.$attrs,'$attrs')
+      var reg=/[^\d^\.]+/g
+      this.numberIn = val.replace(reg,"");
+      console.log(this.numberIn,'val============================input')
+
+
+
+      // this.numberIn = this.numberIn.replace(/[^\d.]/g, '');
+      // this.numberIn = this.numberIn.replace(/^\./g, '');
+      // this.numberIn = this.numberIn.replace(/\.{2,}/g, '');
+      // this.numberIn = this.numberIn
+      //   .replace('.', '$#$')
+      //   .replace(/\./g, '')
+      //   .replace('$#$', '.');
     },
     dialogFalse() {
       this.dialogVisible = false;

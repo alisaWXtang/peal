@@ -31,8 +31,43 @@
         collapse-tags
         clearable
         @change="cascaderChange"
+        >
+          <template slot-scope="{ node }">
+            <span @click.stop="nodeClick(node.label)">{{ node.label }}</span>
+          </template>
+        </el-cascader>
 
-        ></el-cascader>
+<br/>
+<br/>
+<br/>
+    <div
+        style="width: 60%; margin: 0 auto;"
+        @mousemove="ulShow=true"
+        @mouseleave="ulShow=false"
+    >
+    <el-input readonly :rows="2" placeholder="请选择内容" v-model="tagsArr"></el-input>
+    <div class="outer-div" v-show="ulShow">
+        <div
+            class="ul-div"
+            v-for="item in options"
+           :key="item.label" v-show="ulShow"
+           @mouseover.stop="itemOver(item)"
+        >
+            <el-checkbox v-model="item.check" @change="ulClick(item)">{{item.label}}</el-checkbox>
+        </div>
+        <div class="li-outer" v-show="clickItem && clickItem.length">
+            <div class="li-div" v-for="ele in clickItem" :key="ele.label">
+                <el-checkbox v-model="ele.check">{{ele.label}}</el-checkbox>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
     </div>
   </div>
 </template>
@@ -80,83 +115,120 @@ export default {
         props: { multiple: true },
         options: [
         {
-            value:'1_all',
-            label:'全部',
-            children:undefined
+          value: '全部',
+          label: '全部',
+          check: false,
         },
         {
-          value: 1,
+          value: '东南',
           label: '东南',
+          check: false,
           children: [
-           {
-            value:'1_dn',
-            label:'全部',
-            children:undefined
-          },
-          {
-            value: 2,
-            label: '上海',
-          },
-          {
-            value: 7,
-            label: '江苏',
-          },
-          {
-            value: 12,
-            label: '浙江',
-          }]
-        },
-         {
-          value: 17,
-          label: '西北',
-          children: [
-           {
-            value:'1_xb',
-            label:'全部',
-            children:undefined
-           },
-           {
-            value: 18,
-            label: '陕西',
-          },
-          {
-            value: 21,
-            label: '新疆维吾尔族自治区',
-          }]
+            {
+                value: '上海',
+                label: '上海',
+                check: false,
+            },
+            {
+                value: '江苏',
+                label: '江苏',
+                check: false,
+            },
+          ]
         },
         {
-          value: 22,
-          label: '华中',
+          value: '西北',
+          label: '西北',
+          check: false,
           children: [
-           {
-            value:'1_hz',
-            label:'全部',
-            children:undefined
-           },
-           {
-            value: 23,
-            label: '湖南',
-          },
-           {
-            value: 26,
-            label: '湖北',
-          },
+            {
+                value: '陕西',
+                label: '陕西',
+                check: false,
+            }, 
+            {
+                value: '新疆',
+                label: '喀什',
+                check: false,
+            }
           ]
         }
         ],
-        tagsArr:[['1_all']]
+        tagsArr: '',
+        ulShow: false,
+        innerItem: false,
+        clickItem: ''
       }
     },
   
   components: {},
+  watch: {
+        
+    },
+    created(){
+        
+    },
   methods: {
+      ulClick(item) {
+          console.log(item, 173);
+          if (item.label == '全部' && item.check) {
+              this.options.forEach(ele => {
+                  ele.check = true;
+                  if (ele.children && ele.children.length) {
+                      ele.children.forEach(i => {
+                         i.check = true;
+                      })
+                  }
+              })
+              return;
+          }
+          if (item.label == '全部' && !item.check) {
+              this.options.forEach(ele => {
+                  ele.check = false;
+                  if (ele.children && ele.children.length) {
+                      ele.children.forEach(i => {
+                         i.check = false;
+                      })
+                  }
+              })
+              return;
+          }
+          if (item.label == '东南' && item.check) {
+
+            item.check = true;
+            if (item.children && item.children.length) {
+                item.children.forEach(i => {
+                    i.check = true;
+                })
+            }
+
+          }
+
+        if (item.label == '东南' && !item.check) {
+
+            item.check = false;
+            if (item.children && item.children.length) {
+                item.children.forEach(i => {
+                    i.check = false;
+                })
+            }
+
+          }
+
+      },
+      itemOver(item) {
+         this.innerItem=true
+         if (item.children) {
+             this.clickItem = item.children;
+         } else {
+             this.clickItem = [];
+         }
+      },
+      nodeClick(node) {
+          console.log(node);
+      },
       cascaderChange(val){
-        console.log(val, 'cal===================================')
-        val.forEach((element,index) => {
-            if(element[0]==='1_all'){
-            this.tagsArr = val.splice(1)
-        }
-        });
+        console.log(val, 'cal===================================');
       },
       submitForm(formName){
           this.$refs[formName].validate((valid) => {
@@ -180,16 +252,30 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#form{
-.demo-ruleForm{
-    .adviceCs{
-        /deep/.el-form-item__content{
-            // margin-left: 0px!important;
-
+.outer-div {
+    padding: 15px 0 50px 15px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    width: 100px;
+    .ul-div {
+        padding-top: 5px;
+        padding-left: 10px;
+        &:hover {
+            background: #ccc;
         }
     }
-  }
+    .li-outer {
+        position: relative;
+        left: 100px;
+        top: -50px;
+        padding: 15px 0 50px 15px;
+        border: 1px solid #CCC;
+        width: 100px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+    .ul-div:last-child {
+        padding-bottom: 5px;
+    }
 }
-
-
 </style>
