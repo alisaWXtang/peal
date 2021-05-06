@@ -1,0 +1,6 @@
+$sprintListScroll-height: 760px;
+$sprintDetailScroll-height: 780px;
+$leftList-width: 220px;
+@mixin scroll {
+    overflow-y: auto;
+}

@@ -16,7 +16,7 @@ export default {
 
   },
   mounted() {
-    Watermark.set('水印内容')
+    // Watermark.set('水印内容')
   },
   watch: {
     $route: (n, o) => {

@@ -8,9 +8,11 @@ const busmain = () => import("@/components/main");
 const configCd = () => import("@/components/configCd");
 const configC = () => import("@/components/configC");
 const ElScroll = () => import("@/components/elScroll");
+const Menu = () => import("@/components/menu");
 
 export default [
   { path: "/home", component: Home, meta: { title: "主页" } },
+  { path: "/menu", component: Menu, meta: { title: "菜单" } },
   { path: "/combo", component: Combo, meta: { title: "套餐" } },
   { path: "/bus", component: busmain, meta: { title: "vue-bus" } },
   { path: "/elScroll", component: ElScroll, meta: { title: "vue-elScroll" } },

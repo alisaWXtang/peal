@@ -1,0 +1,61 @@
+// 运营 - 内容区域通用样式
+.operation-feedback {
+  height: 100%;
+  width: 100%;
+}
+.el-pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+}
+.page-content-operation {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+/deep/ .operation-content {
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+  background-color: #fff;
+  .block-box {
+    .block-box-left {
+      background: $--background-gray;
+    }
+    .block-box-right {
+      padding-left: 0;
+      margin-left: 0;
+    }
+  }
+}
+.operation-feedback__content {
+  display: flex;
+  height: 100%;
+}
+/deep/ .el-menu--horizontal > .el-menu-item {
+  height: 40px;
+  line-height: 40px;
+}
+.page-content__feedback {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  .feedback-filter {
+    min-height: 30px;
+  }
+  .feedback-left-cols {
+    height: 100%;
+  }
+  .block-box {
+    height: 100%;
+  }
+  .page-content__feedback--right {
+    padding: 16px 24px;
+    height: calc(100% - 36px) !important;
+  }
+  .feedback-content {
+    margin-top: 5px;
+    height: calc(100% - 32px);
+  }
+}

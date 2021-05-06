@@ -56,6 +56,37 @@
      style="padding: 30px 20px 30px 5px;border:1px solid #ddd;margin-bottom: 10px;"
     ></chil-dren>
     <button @click="changeValue">toggle</button>
+    <el-popover
+      placement="right"
+      width="400"
+      trigger="click">
+      <el-table :data="gridData">
+        <el-table-column width="150" property="date" label="日期"></el-table-column>
+        <el-table-column width="100" property="name" label="姓名"></el-table-column>
+        <el-table-column width="300" property="address" label="地址"></el-table-column>
+      </el-table>
+      <el-button slot="reference">click 激活</el-button>
+      <el-row>
+        <el-col :span="12"><div class="grid-content bg-purple">bbbbbbbb</div></el-col>
+        <el-col :span="12">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline">
+            <el-form-item label="审批人">
+              <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+            </el-form-item>
+            <el-form-item label="活动区域">
+              <el-select v-model="formInline.region" placeholder="活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">查询</el-button>
+            </el-form-item>
+          </el-form>          
+        </el-col>
+      </el-row>
+            
+    </el-popover>    
   </div>
 </template>
 
@@ -72,6 +103,10 @@ export default {
   name: 'Self-select',
   data() {
     return {
+    formInline: {
+        user: '',
+        region: ''
+      },       
       valueChild:true,
       shuxList:[
         {name:'a',id:1},
@@ -171,6 +206,9 @@ export default {
       console.log('sssssssssss');
       console.log(val, 'val');
     },
+      onSubmit() {
+        console.log('submit!');
+      }    
 
   },
   beforeDestroy() {

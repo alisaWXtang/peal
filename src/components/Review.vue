@@ -2,6 +2,9 @@
   <div class="review-page">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="金渡" name="first">
+        <el-row @click.native="rowClick">
+          <el-col :span="24"><div class="grid-content bg-purple-dark"></div></el-col>
+        </el-row>
         <h1>1.数据交互及全选多选思维</h1>
         <table border="1" width="500" align="center" cellspacing="0" cellpadding="6">
           <caption>quanxuan</caption>
@@ -32,7 +35,7 @@
           </tbody>
         </table>
         <hr />
-        <el-row style="width:70%;" :gutter="20">
+        <el-row style="width:70%;" :gutter="20" @click="rowClick">
           <el-col :span="12">
             <div class="grid-content bg-purple left-part">
               <h1>标签个数（{{tagsprimariy.length}}）/当前选中（{{selectedTags}}）</h1>
@@ -61,6 +64,7 @@
             </div>
           </el-col>
         </el-row>
+
         <hr />
         <el-checkbox v-model="checked" @change="checkBoxFn">备选项</el-checkbox>
         <el-popover
@@ -180,6 +184,7 @@
       <el-tab-pane label="CSS效果" name="second">CSS效果</el-tab-pane>
       <el-tab-pane label="eventBus" name="third">eventBus</el-tab-pane>
       <el-tab-pane label="elScroll" name="elScroll">el-滚动条</el-tab-pane>
+      <el-tab-pane label="左侧菜单" name="menu">左侧菜单</el-tab-pane>
     </el-tabs>
 
     <!-- <div class="throttle" @mousemove="throttleFn"></div> -->
@@ -194,6 +199,7 @@ export default {
   name: 'Self-select',
   data() {
     return {
+     
       idR: 'cool',
       canshu: 123456,
       ActiveC: true,
@@ -422,6 +428,9 @@ export default {
     console.log('mounted');
   },
   methods: {
+    rowClick(){
+      console.log('lllllll++++++++++++')
+    },
     BtnFn() {
       this.isBtn = !this.isBtn;
       if (!this.isBtn) return;
@@ -583,6 +592,8 @@ export default {
         this.$router.push({ path: `/bus` });
       } else if (tab.label == 'elScroll') {
         this.$router.push({ path: `/elScroll` });
+      } else if (tab.label == '左侧菜单') {
+        this.$router.push({ path: `/menu` });
       }
     },
   },
@@ -673,4 +684,11 @@ export default {
 .blue{
   background: blue;
 }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+    .bg-purple-dark {
+    background: #99a9bf;
+  }
 </style>
