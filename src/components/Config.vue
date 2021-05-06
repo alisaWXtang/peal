@@ -34,8 +34,8 @@
     <p  style="text-indent:2em;">你好，您的密码已经过期</p>
     <p style="text-align:right;width:100%">——————————oppo</p>
 
-    <el-input v-model="numberIn" @keyup.native="onlyNumFn" maxlength="9" />
-    <hr />
+    <el-input v-model="numberIn" @input="onlyNumFn" v-bind="$attrs"/>
+    <!-- <hr /> -->
     <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
 
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
@@ -45,6 +45,7 @@
         <el-button type="primary" v-debounce="dialogFalse">确 定</el-button>
       </span>
     </el-dialog>
+    <div class="debounce" @mousemove="debounceFn"></div>
     <el-button type="text" @click="open">点击打开 Message Box</el-button>
     <router-link to="/config/cool/configCd">router-linkAAAAAA</router-link>
     <router-link to="/config/cool/configC">router-linkBBBBBBb</router-link>
@@ -156,19 +157,29 @@ export default {
     CircleFn(index) {
       this.interim = index;
     },
-    onlyNumFn() {
-      this.numberIn = this.numberIn.replace(/[^\d.]/g, '');
-      this.numberIn = this.numberIn.replace(/^\./g, '');
-      this.numberIn = this.numberIn.replace(/\.{2,}/g, '');
-      this.numberIn = this.numberIn
-        .replace('.', '$#$')
-        .replace(/\./g, '')
-        .replace('$#$', '.');
+    onlyNumFn(val) {
+        console.log(this.$attrs,'$attrs')
+      var reg=/[^\d^\.]+/g
+      this.numberIn = val.replace(reg,"");
+      console.log(this.numberIn,'val============================input')
+
+
+
+      // this.numberIn = this.numberIn.replace(/[^\d.]/g, '');
+      // this.numberIn = this.numberIn.replace(/^\./g, '');
+      // this.numberIn = this.numberIn.replace(/\.{2,}/g, '');
+      // this.numberIn = this.numberIn
+      //   .replace('.', '$#$')
+      //   .replace(/\./g, '')
+      //   .replace('$#$', '.');
     },
     dialogFalse() {
       this.dialogVisible = false;
       console.log('哇哇哇');
     },
+    debounceFn(){
+      console.log('debounceFn');
+    }
     open() {
       const h = this.$createElement;
       this.$msgbox({
@@ -324,5 +335,10 @@ export default {
   width: 300px;
   height: 300px;
   background: red;
+}
+.debounce{
+  widows: 300px;
+  height: 100px;
+  background: pink;
 }
 </style>
