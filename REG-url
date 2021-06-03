@@ -1,4 +1,19 @@
 1.字符串中匹配url
 /https?:\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/
+function urlToHtmlElA(urlStr) {
+  // 替换正则
+  const REPLACE_REG = /https?:\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/g
+  return urlStr.replace(REPLACE_REG, matchedStr => {
+    // 链接去空格
+    let href = matchedStr.replace(/&nbsp;|\s/g, '')
+    // 无协议链接使用绝对路径打开
+    href = !href.match(/http|ftp|https/) ? `//${href}` : href
+    // replace('&nbsp;','')去掉链接中的空格
+    return `<a href="${href}" target="_blank">${matchedStr}</a>`
+  })
+}
+
+
+
 2.对象结构重命名设置默认值
 const {result: notificationList,fields: { eventFields, receiverFields, methodFields }} = result.data;
